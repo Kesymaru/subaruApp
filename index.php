@@ -1,7 +1,5 @@
 <?php
-include "src/subaru.php";
-
-$sudaru = new subaru();
+require 'facebook/facebook.php';
 
 ?>
 <!doctype html public>
@@ -50,27 +48,42 @@ $sudaru = new subaru();
 </html>
 
 <?php
-require 'facebook/facebook.php';
+
+//parametro de la app
 $facebook = new Facebook(array(
-		'appId'  => '287972814647780',
-		'secret' => "8f720272f8395d4a76e384e950834036",
-		'cookie' => true,
+  'appId'  => '287972814647780',
+  'secret' => '8f720272f8395d4a76e384e950834036', 
 ));
-
+	
+// Obtener el ID del Usuario
 $user = $facebook->getUser();
-$signed_request = $facebook->getSignedRequest();
-$uid = $signed_request["user_id"];
 
-$like_status = $signed_request["page"]["liked"];
-
-if($like_status != 1){
-	?>
-	no le ha dado like2
-	<?php
-}else{
-	?>
-	si
-<?php 
+if ($user) {
+	try {
+	    // errores se guardan en un archivo de texto (error_log)
+		$user_profile = $facebook->api('/me');
+	} catch (FacebookApiException $e) {
+		error_log($e);
+		$user = null;
+	} 
 }
+
+if ($user) {
+	$logoutUrl = $facebook->getLogoutUrl();
+} else {
+	$loginUrl = $facebook->getLoginUrl(     
+	//prmisos solicitados para la app       
+	array(
+          'scope' => 'email,publish_stream,user_birthday,user_location,user_work_history,user_about_me,user_hometown'
+         ));
+} 
+
+//no logueado -> pagina de logueo
+if (!$user) {
+	echo 'no estas logueado';
+}else{
+	echo 'Tu facebook id es: '.$user['user_id'];
+}
+
 
 ?>
