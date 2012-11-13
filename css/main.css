@@ -1,0 +1,95 @@
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer,header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video {
+	margin:0; padding:0; border:0; font-size:100%; font:inherit; vertical-align: baseline; }
+/* HTML5 display-role reset for older browsers */
+article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section {display:block; }
+body {line-height:1; }
+ol,ul {list-style:none; }
+blockquote,q {quotes:none; }
+blockquote:before,blockquote:after,q:before,q:after {content:''; content:none; }
+table {border-collapse:collapse; border-spacing:0; }
+a {outline:none; text-decoration: none; }
+
+/*END RESET ---------------------------*/
+
+body {font-size:62.5%; font-family: Arial,sans-serif; }
+#content{width: 810px; overflow: hidden; position: relative; }
+.like_page{background: url(../images/like_bg.jpg) no-repeat; min-height: 858px; }
+.participar_page{background: url(../images/participar_bg.jpg) no-repeat; min-height: 858px; }
+.form_page{background: url(../images/form_bg.jpg) no-repeat #000000; min-height: 953px; }
+.thanks_page{background: url(../images/thanks_bg.jpg) no-repeat; min-height: 858px; }
+.world_rally{position: absolute; text-indent: -9999px; }
+.like_page .world_rally, 
+.participar_page .world_rally, .thanks_page .world_rally{top: 20px; height: 438px; width: 354px; }
+.subaru_logo{position: absolute; width: 203px; height: 102px; }
+.subaru_logo a{display: block; height: 100%; text-indent: -9999px; }
+.like_page .subaru_logo, 
+.form_page .subaru_logo, .thanks_page .subaru_logo{bottom: 0; right: 0; z-index: 10; }
+.participar_page .subaru_logo{
+	height: 122px;
+	right: 166px;
+	top: 242px;
+	width: 243px;
+}
+.particpar{
+	bottom: 21px;
+	height: 41px;
+	left: 90px;
+	position: absolute;
+	width: 549px;
+}
+.particpar a{display: block; height: 100%; text-indent: -9999px; }
+
+/* FORM PAGE */
+.form_page .world_rally{
+	bottom: 190px;
+	 height: 238px;
+	 position: absolute;
+	 text-indent: -9999px;
+	 width: 234px;
+}
+.form_section{margin: 765px 0 0 35px; width: 768px; position: relative; }
+.form_section h2, .form_section input[type="text"], .form_section .submit{background: url(../images/form_sprite.png) no-repeat; }
+.form_section h2{
+	background-position: 0 -138px;
+	height: 19px;
+	width: 245px;
+	text-indent: -99999px;
+	margin: 0 0 25px 190px;
+}
+.form_section input[type="text"]{
+	display: block;
+	border:none;
+	height: 26px;
+	width: 495px;
+	margin: 0 0 3px;
+	color: #bcbdc0;
+	padding: 0 0 0 150px;
+}
+.form_section #nombre{background-position: 0 0; }
+.form_section #cedula{background-position: 0 -31px; }
+.form_section #correo{background-position: 0 -63px; }
+.form_section #fecha_nacimiento{background-position: 0 -95px; }
+.form_section .submit{
+	background-position: 0 -170px;
+	border: medium none;
+	cursor: pointer;
+	height: 40px;
+	line-height: 40px;
+	position: absolute;
+	right: 10px;
+	text-indent: -9999px;
+	top: 6px;
+	width: 223px;
+}
+
+/*
+THANKS PAGE =======================>
+*/
+
+.thanks_page .world_rally{right: 20px; top: 18px; height: 400px; }
+.thanks_page .subaru_logo{
+	bottom: 89px;
+	height: 122px;
+	right: 132px;
+	width: 243px;
+}
