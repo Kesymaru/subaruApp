@@ -21,7 +21,7 @@ $sudaru = new subaru();
 	<p class="subaru_logo"><a href="#">SUBARU</a></p>
 	<div class="form_section">
 		<h2>Datos de registro</h2>
-		<form action="#">
+		<form action="#" method="post">
 			<input type="text" name="nombre" id="nombre" placeholder="Name" >
 			<input type="text" name="cedula" id="cedula" placeholder="Cedula" >
 			<input type="text" name="correo" id="correo" placeholder="Correo" >
