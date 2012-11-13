@@ -1,6 +1,6 @@
 <?php
+require_once("facebook/facebook.php");
 require_once('classes/classDatabase.php');
-require_once("../facebook/facebook.php");
 
 //Utilizar solo en modo produccion
 error_reporting(E_ALL ^ E_NOTICE);
@@ -45,7 +45,6 @@ class Subaru{
 
 		}else{
 			//logueado
-			echo 'Logueado';
 			$_SESSION['logueado'] = true;
 			
 			//datos del usuario
@@ -58,7 +57,7 @@ class Subaru{
 	* devuelve datos usario
 	* return datos array
 	*/
-	public getDatos(){
+	public function getDatos(){
 		return $this->datos;
 	}
 
@@ -89,4 +88,6 @@ class Subaru{
 	}
 }
 
+
+$subaru = new Subaru();
 ?>

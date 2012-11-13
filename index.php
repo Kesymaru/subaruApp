@@ -1,13 +1,12 @@
 <?php
 
-//SDk de facebook
-require_once("facebook/facebook.php");
-require_once('src/subaru.php');
+include('src/subaru.php');
 
 $subaru = new Subaru();
-$datos = $subaru -> getDatos();
 
-print_r($datos);
+echo 'datos: <br/>'.
+print_r($subaru -> getDatos());
+
 
 /*
 //parametro de la app paa facebook
@@ -57,5 +56,5 @@ echo '<br/>datos: '.$user_profile['name'].' <br/>mail: '.$user_profile['email'];
 echo '<br/>id: '.$user_profile['id'];
 */
 
-
 ?>
+
