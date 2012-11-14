@@ -8,7 +8,6 @@ session_start();
 
 class Subaru{
 	private $datos = array();
-
 	/*
 	* Se encarga de todo lo relacionado con los permisos de facebook
 	*/
@@ -49,6 +48,7 @@ class Subaru{
 			
 			//datos del usuario
 			$this->datos = array('nombre' => $user_profile['name'] , 'correo' => $user_profile['email'], 'id' => $user_profile['id'] );
+
 		}
 
 	}
@@ -61,6 +61,10 @@ class Subaru{
 		return $this->datos;
 	}
 
+	public function getId(){
+		return $this->datos['id'];
+	}
+
 	/*
 	* REALIZA REGISTRO DE NUEVO PARTICIPANTE
 	* @param $nombre -> string del nombre
@@ -68,26 +72,62 @@ class Subaru{
 	* @param $fecha_nacimiento -> string con formato dd/mm/aaaa
 	* @param $id -> id del usuario de facebook
 	*/
-	public function registro($nombre, $correo, $cedula, $fecha_nacimiento){
-		$id = 600; //para pruebas el id es el de facebook
+	public function registro($nombre, $correo, $cedula, $fecha_nacimiento, $id){
 		$registro = new Database();
 		
 		$datos = array("nombre" => $nombre, "correo" => $correo, "cedula" => $cedula, "fecha_nacimiento" => $fecha_nacimiento, "id" => $id );
 
 		//si el usuario no se ha registrado
-		if( !$registro->exits('participantes', 'id', $id) ){
+		$registro->exits('participantes', 'id', $id);
+		
+		if( $registro->getExiste() == 'no existe' ){
 			
 			//registra en la base de datos
 			$registro->queryInsert('participantes', $datos);
 
-			echo 'Registrdo existosamente. Invita amigos para obtener puntos.';
+			//puntos por defecto
+			$default_puntos = array('participante' => $this->datos['id'] , 'putos' => 0 );
+			$registro->queryInsert('puntos', $default_puntos);
+
 		}else{
-			echo 'Ya te has registrado, Invita amigos para obtener puntos.';
+			echo 'Error 1: Usuario ya registrado.';
 		}
 		
 	}
+
+	/**
+	* REALIZA EL REGISTRO DE REFERENCIAS DE UN USURIO
+	* @param referencias -> array con id de usuarios
+	*/
+	public function referencias($referencias){
+		$registro = new Database();
+
+		//print_r($referencias);
+
+		foreach($referencias as $key => $value) {
+			$dato = array('participante' => $this->datos['id'], 'referencia' => $value );
+			$registro->queryInsert('referencias', $dato);
+		}
+
+		//calcula los puntos de los participantes
+		$registro->puntos();
+	}
+
+	/**
+	* REVISA SI LE DIO LIKE A LA FAN PAGE
+	*/
+	public function like(){
+		$user = $facebook->getUser();
+		$signed_request = $facebook->getSignedRequest();
+		$uid = $signed_request["user_id"];
+		$like_status = $signed_request["page"]["liked"];
+		
+		if($like_status != 1){
+			echo 'like.html';
+		}else{
+			echo 'form.html';
+		}
+	}
 }
 
-
-$subaru = new Subaru();
 ?>

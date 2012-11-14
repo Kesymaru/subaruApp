@@ -7,13 +7,14 @@
 class Database{
 	
 	private $dbHost 	= "localhost";
-	private $dbUser 	= "root";
-	private $dbPassword = "";
-	private $dbDatabase = "subaru";
+	private $dbUser 	= "SubaruMexico";
+	private $dbPassword = "Suba159!!";
+	private $dbDatabase = "subarumexico";
 	
-	private $dbLink 	= 0;
+	private $dbLink      = 0;
 	private $dbRecordSet = 0;
-	public  $dbResult 	= false;
+	public  $dbResult    = false;
+	public $exite        = false;
 
 
 /* Metodos principales */
@@ -31,10 +32,7 @@ class Database{
 	
 	//Conexion
 	private function conect(){
-		//$this->dbLink= mysql_connect($this->dbHost, $this->dbUser, $this->dbPassword) or die ("1. No funciona por " . mysql_error()); 
-
-		$this->dbLink= mysql_connect($this->dbHost, $this->dbUser) or die ("1. No funciona por " . mysql_error()); 
-
+		$this->dbLink= mysql_connect($this->dbHost, $this->dbUser, $this->dbPassword) or die ("1. No funciona por " . mysql_error()); 
 	}
 	//Seleccionar base	
 	private function setBase(){
@@ -128,33 +126,105 @@ class Database{
 		$this->query($sentencia);
 	}
 
-/* CONSULTAS PREDEFINIDAS */
+	/**
+	* TRUNCA UNA TABLA
+	* @param $tabla -> tabla ha limpiar
+	*/
+	public function clear($tabla){
+		$query = "TRUNCATE TABLE ".$tabla;
+		mysql_query($query) or die('4. No funciona por '. mysql_errno());
+	}
 	
-	/*
-	* revisa si existe un dato dentro de una tabla
+	/**
+	* REVISA SI EXISTE UN DATO DENTRO DE UNA TABLA
 	* return true -> si existe
 	* param $tabla -> tabla ha consultar
 	* param $campo -> campo ha seleccionar
-	* param $valor -> valor ha comparar
+	* param $id -> valor ha comparar
 	*/
-	public function exits($tabla, $campo, $valor){
-		$query = "SELECT ".$campo." FROM ".$tabla." WHERE ".$campo." = ".$valor;
+	public function exits($tabla, $campo, $id){
+		$query = "SELECT ".$campo." FROM ".$tabla." WHERE ".$campo." = ".$id;
 
-		$resultado = mysql_query($query) or die ("4. No funciona por " . mysql_error());
+		$resultado = mysql_query($query) or die ("5. No funciona por " . mysql_error());
 		
 		if($resultado = mysql_fetch_array($resultado)){
-			return true; //existe
+			$this->existe = 'si existe';
 		}else{
-			return false; //no existe
+			$this->existe = 'no existe';
 		}
 	}
 
-	/*
-	* cuenta los amigos referenciados por el participante 
-	* param $id -> id del participante
+	/**
+	* GETTER PARA EXISTE
+	* return existe
 	*/
-	public function sumaPunto($id){
-		$this->query('SELECT * FROM puntos WHERE id = '.$id);
-		echo $this->dbResult;
+	public function getExiste(){
+		return $this->existe;
 	}
+
+	/**
+	* CALCULA LOS PUNTOS DE TODOS LOS PARTICIPANTES
+	*/
+	public function puntos(){
+		$query = "SELECT * FROM participantes";
+		$resultado = mysql_query($query) or die( "10. No funciona por " . mysql_error());
+		
+		while($row = mysql_fetch_array($resultado)){
+			$this->sumaPuntos($row['id']);
+		}
+	}
+
+	/**
+	* OBTIENE LOS PUNTOS DEL USUARIO
+	* @param $id -> id del participante
+	* return puntos
+	*/
+	private function sumaPuntos($id){
+		$puntos = 0;
+		$query = "SELECT * FROM referencias WHERE participante = ".$id;
+		$resultado = mysql_query($query) or die ("20. No funciona por " . mysql_error());
+
+		//suma los puntos del participante
+		while($row = mysql_fetch_array($resultado)){
+			
+			//usuario esta invitado se registro
+			/*if($this->invitado($id, $row['referencia'])){
+				//cuenta
+				$puntos++;
+			}*/
+
+			$this->exits('participantes', 'id', $row['referencia']);
+
+			if($this->getExiste() == "si existe"){
+				//cuenta
+				$puntos++;
+			}
+		}
+
+		if($puntos != 0){
+			$query = "UPDATE puntos SET putos = ".$puntos." WHERE participante = ".$id;
+			mysql_query($query) or die("7. No funciona por " . mysql_error());
+
+			echo $puntos;
+		}
+	}
+
+	/**
+	* DETERMINA SI EL USUARIO INVITADO SE REGISTRO
+	* @param $id -> id usuario quien invita
+	* @param $referencia -> id usuario invitado
+	* return true -> si fue invitado
+	*/
+	private function invitado($id, $referencia){
+		$query = "SELECT * FROM participantes WHERE id = ".$id;
+
+		$resultado = mysql_query($query) or die ("6. No funciona por " . mysql_error());
+		
+		if($resultado = mysql_fetch_array($resultado)){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
 }
