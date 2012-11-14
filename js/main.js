@@ -1,6 +1,8 @@
 
 $(document).ready(function (){
 
+	$('#formulario').hide();
+
 	//inicia validacion
 	$('#registro').validationEngine();
 
@@ -77,8 +79,6 @@ function referencias(response) {
 
         console.log('amigos invidatos: '+response.to.length);
 
-        alert(response.to);
-
         for(i=0; i < response.to.length; i++) {
             request_ids[i] = response.to[i];
         }
@@ -95,17 +95,16 @@ function referencias(response) {
 			url: 'src/ajax.php',
 			type: 'post',
 			success: function (response){
-				alert(response);
+				//alert(response);
 
-				if(response.length = 0){
-					notifica('Exelente acabas de acumular '+response+' puntos.');
+				if(response.length == 0){
+					notifica('Exelente, entre mas amigos invites mas puntos puedes obtener.');
+					thanks();
 				}else{
 					notificaError('Error: 2. problema al guarda tus invitaciones.');
 				}
 			}
 		});
-		
-		//like();
 
     } else {
         notificaError('canceled');
@@ -116,21 +115,31 @@ function referencias(response) {
 * CARGA LA PAGINA LIKE
 */
 function like(){
-	$('body').load('like.html');
+	$('#carga').load('like.html');
 }
 
 /**
 * CARGA LA PAGINA thanks.html
 */
 function thanks(){
-	$('body').load('thanks.html');
+	$('#formulario').fadeOut();
+	$('#carga').load('thanks.html');
+	$('#carga').fadeIn();
 }
 
 /**
 * CARGA LA PAGINA form.html
 */
 function form(){
-	$('body').load('form.html');
+	$('#carga').hide();
+	$('#formulario').fadeIn();
+}
+
+/**
+* CARGA LA PAGINA DE participar.html
+*/
+function participar(){
+	$('#carga').load('participar.html');
 }
 
 /**

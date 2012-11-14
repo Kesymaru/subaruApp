@@ -4,8 +4,6 @@ include('src/subaru.php');
 
 $subaru = new Subaru();
 $datos = $subaru->getDatos();
-//echo 'datos: <br/>'.
-//print_r($subaru -> getDatos());
 
 ?>
 
@@ -48,29 +46,60 @@ $datos = $subaru->getDatos();
     <!-- themes -->
     <script type="text/javascript" src="js/noty/themes/default.js"></script>
 
-	<!-- facebook -->
-  	<script src="http://connect.facebook.net/en_US/all.js"></script>
-
   	<!-- main -->
   	<script type="text/javascript" src="js/main.js"></script>
 
+  	<script>
+	 window.fbAsyncInit = function() {
+	  FB.init({
+	   appId      : '533752239970800', // App ID
+	   channelUrl : 'https://development.77digital.com/77/fb/channel.php', // Channel File
+	   status     : true, // check login status
+	   cookie     : true, // enable cookies to allow the server to access the session
+	   xfbml      : true  // parse XFBML
+	  });
+	  FB.Canvas.setAutoGrow(7);
+	    };
+	 // Load the SDK Asynchronously
+	 (function(d){
+	  var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+	  if (d.getElementById(id)) {return;}
+	   js = d.createElement('script'); js.id = id; js.async = true;
+	   js.src = "//connect.facebook.net/en_US/all.js";
+	   ref.parentNode.insertBefore(js, ref);
+	  }(document));
+  	</script>
+
 </head>
 <body>
-<div class="form_page" id="content">
-	<h2 class="world_rally">WORLD RALLY CHAMPIONSHIP</h2>
-	<p class="subaru_logo"><a href="#">SUBARU</a></p>
 
-	<div class="form_section">
-		<h2>Datos de registro</h2>
-		<form id="registro" onsubmit="return false">
-			<input type="text" name="nombre" id="nombre" placeholder="Name" class="validate[required]">
-			<input type="text" name="cedula" id="cedula" placeholder="Cedula" class="validate[required,custom[integer]]">
-			<input type="text" name="correo" id="correo" placeholder="Correo" class="validate[required,custom[email]]">
-			<input type="text" name="fecha_nacimiento" id="fecha_nacimiento" placeholder="Fecha de nacimiento" class="validate[required,custom[date]]">
-			<button id="submit" class="submit"></button>
-		</form>
-	</div>
-
+<div id="carga">
+	
 </div>
+
+<div id="formulario"> 
+	<div class="form_page" id="content">
+		<h2 class="world_rally">WORLD RALLY CHAMPIONSHIP</h2>
+		<p class="subaru_logo"><a href="#">SUBARU</a></p>
+
+		<div class="form_section">
+			<h2>Datos de registro</h2>
+			<form id="registro" onsubmit="return false">
+				<input type="text" name="nombre" id="nombre" placeholder="Name" class="validate[required]">
+				<input type="text" name="cedula" id="cedula" placeholder="Cedula" class="validate[required,custom[integer]]">
+				<input type="text" name="correo" id="correo" placeholder="Correo" class="validate[required,custom[email]]">
+				<input type="text" name="fecha_nacimiento" id="fecha_nacimiento" placeholder="Fecha de nacimiento" class="validate[required,custom[date]]">
+				<button id="submit" class="submit"></button>
+			</form>
+		</div>
+
+	</div>
+</div>
+
+<?php
+	$subaru->like();
+?>
+
 </body>
 </html>
+

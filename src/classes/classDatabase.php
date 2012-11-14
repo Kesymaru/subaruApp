@@ -204,8 +204,6 @@ class Database{
 		if($puntos != 0){
 			$query = "UPDATE puntos SET putos = ".$puntos." WHERE participante = ".$id;
 			mysql_query($query) or die("7. No funciona por " . mysql_error());
-
-			echo $puntos;
 		}
 	}
 

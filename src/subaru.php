@@ -3,7 +3,7 @@ require_once("facebook/facebook.php");
 require_once('classes/classDatabase.php');
 
 //Utilizar solo en modo produccion
-error_reporting(E_ALL ^ E_NOTICE);
+//error_reporting(E_ALL ^ E_NOTICE);
 session_start();
 
 class Subaru{
@@ -32,7 +32,7 @@ class Subaru{
 
 		//no logueado -> pagina de logueo
 		if ( !$user ) {
-
+			/*
 			$_SESSION['logueado'] = false;
 
 			//prmisos solicitados para la app
@@ -41,7 +41,13 @@ class Subaru{
 			if(!$_SESSION['logueado']){	
 				echo "<script type='text/javascript'>top.location.href = '".$loginUrl."';</script>";		
 			}
+			*/
 
+			//prmisos solicitados para la app
+			$loginUrl = $facebook->getLoginUrl(array('scope' => 'email,publish_stream'));
+			$loginUrl .= '&redirect_uri=https://www.facebook.com/pages/77-Leo-Burnett/111431072353847?sk=app_533752239970800';
+			
+			echo "<script type='text/javascript'>top.location.href = '".$loginUrl."';</script>";		
 		}else{
 			//logueado
 			$_SESSION['logueado'] = true;
@@ -117,15 +123,22 @@ class Subaru{
 	* REVISA SI LE DIO LIKE A LA FAN PAGE
 	*/
 	public function like(){
+		$facebook = new Facebook(array(
+		   'appId' => '533752239970800',
+		   'secret' => '3514c9cc9d9dab2606330ac6211ddae2',
+		   'cookie' => true,
+		));
+
 		$user = $facebook->getUser();
 		$signed_request = $facebook->getSignedRequest();
 		$uid = $signed_request["user_id"];
 		$like_status = $signed_request["page"]["liked"];
 		
 		if($like_status != 1){
-			echo 'like.html';
+			//muestra pagina de like
+			echo '<script>like();</script>';
 		}else{
-			echo 'form.html';
+			echo '<script>participar();</script>';
 		}
 	}
 }
