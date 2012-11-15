@@ -186,12 +186,6 @@ class Database{
 
 		//suma los puntos del participante
 		while($row = mysql_fetch_array($resultado)){
-			
-			//usuario esta invitado se registro
-			/*if($this->invitado($id, $row['referencia'])){
-				//cuenta
-				$puntos++;
-			}*/
 
 			$this->exits('participantes', 'id', $row['referencia']);
 

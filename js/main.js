@@ -66,6 +66,7 @@ function invitar() {
     }, function (response){
     	 referencias(response);
     });
+    thanks();
 }
    
 /**
@@ -74,7 +75,7 @@ function invitar() {
 * @param response
 */  
 function referencias(response) {
-    if (response.request && response.to) {
+    if (response.to) {
         var request_ids = [];
 
         console.log('amigos invidatos: '+response.to.length);
@@ -99,15 +100,13 @@ function referencias(response) {
 
 				if(response.length == 0){
 					notifica('Exelente, entre mas amigos invites mas puntos puedes obtener.');
-					thanks();
+					//thanks();
 				}else{
 					notificaError('Error: 2. problema al guarda tus invitaciones.');
 				}
 			}
 		});
 
-    } else {
-        notificaError('canceled');
     }
 }
 
@@ -122,7 +121,7 @@ function like(){
 * CARGA LA PAGINA thanks.html
 */
 function thanks(){
-	$('#formulario').fadeOut();
+	$('#formulario').remove();
 	$('#carga').load('thanks.html');
 	$('#carga').fadeIn();
 }
